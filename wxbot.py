@@ -477,6 +477,10 @@ class WXBot:
         """
         pass
 
+
+
+
+
     @staticmethod
     def proc_at_info(msg):
         if not msg:
@@ -696,6 +700,8 @@ class WXBot:
             99 -> Unknown
         :param r: 原始微信消息
         """
+
+        # print("hey i am here")
         for msg in r['AddMsgList']:
             user = {'id': msg['FromUserName'], 'name': 'unknown'}
             if msg['MsgType'] == 51 and msg['StatusNotifyCode'] == 4:  # init message
@@ -756,6 +762,8 @@ class WXBot:
                        'content': content,
                        'to_user_id': msg['ToUserName'],
                        'user': user}
+            # print(message)
+            # print("hihihi")
             self.handle_msg_all(message)
 
     def schedule(self):
@@ -785,7 +793,7 @@ class WXBot:
                         if r is not None:
                             self.handle_msg(r)
                     elif selector == '3':  # 未知
-                        r = self.sync()
+                        r = self.sync()()
                         if r is not None:
                             self.handle_msg(r)
                     elif selector == '4':  # 通讯录更新
@@ -1453,6 +1461,7 @@ class WXBot:
         r = self.session.get(url)
         data = r.content
         fn = 'img_' + msgid + '.jpg'
+        # fn = 'group_img_' + msgid + '.jpg'
         with open(os.path.join(self.temp_pwd,fn), 'wb') as f:
             f.write(data)
         return fn
