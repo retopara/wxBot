@@ -1461,7 +1461,6 @@ class WXBot:
         r = self.session.get(url)
         data = r.content
         fn = 'img_' + msgid + '.jpg'
-        # fn = 'group_img_' + msgid + '.jpg'
         with open(os.path.join(self.temp_pwd,fn), 'wb') as f:
             f.write(data)
         return fn
