@@ -70,3 +70,6 @@ qr.png
 *.ini
 *.un~
 /temp
+
+# PyCharm local env
+venv/
