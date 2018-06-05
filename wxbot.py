@@ -138,6 +138,7 @@ class WXBot:
 
     @staticmethod
     def to_unicode(string, encoding='utf-8'):
+        # type: (object, object) -> object
         """
         将字符串转换为Unicode
         :param string: 待转换字符串

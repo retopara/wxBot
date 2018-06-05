@@ -14,22 +14,18 @@ class MyWXBot(WXBot):
         """
 
         if msg['msg_type_id'] == 3:
-            print("inside handle all msg "
-                  , "msg_id = ", msg['msg_id']
-                  , "msg_type_id = ", msg['msg_type_id']
-                  , "msg_content_type = ", msg['content']['type']
-                  , "group_name = ", msg['user']['name'].decode('utf-8')
+            print("msg_id = ", msg['msg_id']
+                  , " msg_type_id = ", msg['msg_type_id']
+                  , " msg_content_type = ", msg['content']['type']
+                  , " group_name = ", self.to_unicode(msg['user']['name'])
                   )
 
             if msg['content']['type'] == 3:
-                print("this should be a image message, pic saved to ./temp/", self.get_msg_img(msg))
+                print("this should be a image message, pic saved to ", self.get_msg_img(msg))
                 # print("pic saved to ./temp/", self.get_msg_img(msg['msg_id']))
 
-            if msg['content']['type'] == 13:
-                print("this should be a SMALL VIDEO, saved to ./temp/", self.get_video(msg))
-
-            if msg['content']['type'] == 8:
-                print("this should be a video message, saved to ./temp/", self.get_video(msg))
+            if msg['content']['type'] == 13 or msg['content']['type'] == 8:
+                print("this should be a video message, saved to ", self.get_video(msg))
 
     def get_msg_img(self, msg):
         """
@@ -41,12 +37,13 @@ class MyWXBot(WXBot):
         r = self.session.get(url)
         data = r.content
         fn = 'img_' + msg['msg_id'] + '.jpg'
-        fpath = os.path.join(os.getcwd(), msg['user']['name'].decode('utf-8'))
-        if not os.path.isdir(fpath):
-            os.makedirs(fpath)
-        with open(os.path.join(fpath, fn), 'wb') as f:
+        fp = os.path.join(os.getcwd(), msg['user']['name'].decode('utf-8'))
+        fpn = os.path.join(fp, fn)
+        if not os.path.isdir(fp):
+            os.makedirs(fp)
+        with open(fpn, 'wb') as f:
             f.write(data)
-        return fn
+        return fpn
 
     def get_video(self, msg):
         """
@@ -59,12 +56,13 @@ class MyWXBot(WXBot):
         r = self.session.get(url, headers=headers)
         data = r.content
         fn = 'video_' + msg['msg_id'] + '.mp4'
-        fpath = os.path.join(os.getcwd(), msg['user']['name'].decode('utf-8'))
-        if not os.path.isdir(fpath):
-            os.makedirs(fpath)
-        with open(os.path.join(fpath, fn), 'wb') as f:
+        fp = os.path.join(os.getcwd(), msg['user']['name'].decode('utf-8'))
+        fpn = os.path.join(fp, fn)
+        if not os.path.isdir(fp):
+            os.makedirs(fp)
+        with open(fpn, 'wb') as f:
             f.write(data)
-        return fn
+        return fpn
 
 
 '''
